@@ -1,38 +1,18 @@
-# 1. Aşama: Build
-FROM node:18 AS build
-
-# Çalışma dizini
-WORKDIR /app
-
-# package.json ve lock dosyalarını kopyala
-COPY package*.json ./
-
-# bağımlılıkları yükle
-RUN npm ci
-
-# kaynak kodu kopyala
-COPY . .
-
-# uygulamayı build et (React, Angular, Vue gibi frontend ise)
-# backend ise bu satır olmayabilir
-RUN npm run build
-
-# 2. Aşama: Production
+# Production NodeJS image
 FROM node:18-alpine
 
 WORKDIR /app
 
-# sadece production bağımlılıklarını yükle
+# package.json ve package-lock.json'u kopyala
 COPY package*.json ./
-RUN npm ci --omit=dev
 
-# build aşamasından çıktıları kopyala
-COPY --from=build /app/dist ./dist
+# dependency yoksa npm install çalışır
+RUN npm install --production
 
-# (opsiyonel) config dosyaları, public dosyalar
-# COPY --from=build /app/public ./public
+# uygulama dosyalarını kopyala
+COPY . .
 
 EXPOSE 3000
 
-CMD ["node", "dist/main.js"]
+CMD ["node", "index.js"]  # main.js yerine index.js kullanabiliriz
 
