@@ -23,8 +23,8 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker build -t mydockerhubuser/myapp:${{ github.sha }} .
-          docker push mydockerhubuser/myapp:${{ github.sha }}
+          docker build -t i7ozdogann/myapp:${{ github.sha }} .
+          docker push i7ozdogann/myapp:${{ github.sha }}
 
   test:
     runs-on: ubuntu-latest
@@ -48,8 +48,8 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            docker pull mydockerhubuser/myapp:${{ github.sha }}
+            docker pull i7ozdogann/myapp:${{ github.sha }}
             docker stop myapp || true
             docker rm myapp || true
-            docker run -d --name myapp -p 80:3000 mydockerhubuser/myapp:${{ github.sha }}
+            docker run -d --name myapp -p 80:3000 i7ozdogann/myapp:${{ github.sha }}
 
