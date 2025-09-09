@@ -44,9 +44,9 @@ jobs:
       - name: Deploy to Server
         uses: appleboy/ssh-action@v0.1.7
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          port: ${{ secrets.SERVER_PORT}}
-          username: ${{ secrets.SERVER_USER }}
+          host: 127.0.0.1
+          port: 2222
+          username: dev
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             docker pull i7ozdogann/myapp:${{ github.sha }}
